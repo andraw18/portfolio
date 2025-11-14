@@ -1,534 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<title>ANDRAW — Portfolio</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andraw Portfolio</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --pad-m:20px;
-  --pad-t:32px;
-  --pad-d:50px;
-  --maxw:1600px;
-  --col-gap:15px;
-  --fg:#fff;
-  --bg:#000;
-  --accent:#A066FF;
-  --safe-b:60px;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  height:100%;
-  background:#000;
-  overflow:hidden;
-  color:#fff;
-  font-family:"Wix Madefor Display",sans-serif;
-}
-
-/* CANVAS LAYER */
-#andMoodFly{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:0;
-}
-
-/* HERO LAYER */
-.hero{
-  position:relative;
-  z-index:3;
-  min-height:80vh;
-  display:flex;
-  align-items:flex-start;
-  padding-bottom:var(--safe-b);
-}
-.hero__inner{
-  width:100%;
-  max-width:var(--maxw);
-  margin:0 auto;
-  padding-inline:var(--pad-m);
-  padding-top:18px;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(12,1fr);
-  gap:var(--col-gap);
-}
-
-/* MENU */
-.menu{
-  position:fixed;
-  left:var(--pad-m);
-  top:22px;
-  width:28px; height:18px;
-  background:url('https://static.tildacdn.com/tild6535-3230-4861-b836-383930616236/men.svg') center/contain no-repeat;
-  cursor:pointer;
-  z-index:50;
-  border:none;
-}
-
-/* POPUP MENU */
-.popup{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.94);
-  backdrop-filter:blur(8px);
-  display:flex;
-  align-items:flex-end;
-  justify-content:flex-end;
-  padding:0 var(--pad-d) var(--pad-d) 0;
-  z-index:60;
-  opacity:0;
-  pointer-events:none;
-  transition:.35s ease;
-}
-.popup.show{
-  opacity:1;
-  pointer-events:auto;
-}
-.popup a{
-  display:block;
-  font-size:16px;
-  color:#fff;
-  margin-bottom:36px;
-  text-align:right;
-  opacity:.85;
-  transition:.25s;
-}
-.popup a:hover{opacity:1;}
-
-.popup .close{
-  position:absolute;
-  top:28px; right:28px;
-  width:28px; height:28px;
-  cursor:pointer;
-}
-.popup .close::before,
-.popup .close::after{
-  content:'';
-  position:absolute; inset:0; margin:auto;
-  width:22px; height:2px;
-  background:#fff;
-}
-.popup .close::before{transform:rotate(45deg);}
-.popup .close::after{transform:rotate(-45deg);}
-
-/* RUNNING TEXT */
-.head{
-  grid-column:1/-1;
-  margin-top:30px;
-  font-size:clamp(36px,8vw,85px);
-  white-space:nowrap;
-  overflow:hidden;
-  mask-image:linear-gradient(90deg,transparent,black 6%,black 94%,transparent);
-}
-.head span{
-  display:inline-block;
-  animation:scroll 18s linear infinite;
-  background: radial-gradient(circle at var(--x,50%) var(--y,50%), #fff 0%, #fff 10%, #888 25%, #444 50%, #222 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-@keyframes scroll{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-
-/* SUBNAV */
-.subnav{
-  grid-column:1/-1;
-  display:flex;
-  justify-content:space-between;
-  margin-top:14px;
-}
-.subnav a{color:#fff; text-decoration:none;}
-
-/* RIGHT SIDE LINKS */
-.side{
-  position:fixed;
-  right:var(--pad-m);
-  top:50%;
-  transform:translateY(-50%);
-  display:flex;
-  flex-direction:column;
-  gap:80px;
-  z-index:50;
-  text-align:right;
-}
-
-/* CASE SLIDER */
-.case{
-  position:fixed;
-  left:var(--pad-m);
-  bottom:var(--safe-b);
-  display:flex;
-  align-items:center;
-  gap:20px;
-  z-index:50;
-}
-.slider{
-  width:min(22vw,220px);
-  aspect-ratio:1/1;
-  border-radius:50%;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-}
-.slider img{
-  position:absolute;
-  inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:opacity .7s;
-}
-.slider img.active{opacity:1;}
-
-.case__title{
-  position:absolute;
-  left:0; bottom:-26px;
-  font-size:15px;
-  color:#fff;
-}
-
-.dots{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-.dot{
-  width:6px; height:6px;
-  border-radius:50%;
-  background:rgba(255,255,255,.3);
-}
-.dot.active{
-  background:#fff;
-  box-shadow:0 0 0 2px var(--accent);
-}
-
-/* LOGO */
-.brand{
-  position:fixed;
-  right:var(--pad-m);
-  bottom:var(--safe-b);
-  z-index:50;
-}
-.brand img{height:28px;}
-
-#cursorText{
-  position:fixed;
-  left:0; top:0;
-  transform:translate(-50%, -200%);
-  color:#fff;
-  font-size:13px;
-  pointer-events:none;
-  opacity:0;
-  transition:.35s ease;
-  z-index:100;
-}
-
-/* POPUP MOOD */
-.and-overlay{
-  position:fixed; inset:0;
-  background:rgba(0,0,0,.55);
-  backdrop-filter:blur(6px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:200;
-}
-.and-pop{
-  width:min(92vw,420px);
-  background:#111;
-  border-radius:16px;
-  padding:22px;
-  border:1px solid #333;
-}
-.mood-row{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-.mood-btn{
-  background:#171717;
-  border:1px solid #333;
-  padding:12px;
-  border-radius:20px;
-  color:#fff;
-  display:flex;
-  gap:10px;
-  cursor:pointer;
-  transition:.25s;
-}
-.mood-btn:hover{background:#242424;}
-
-</style>
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-
 
 <body>
 
-<!-- CANVAS -->
-<canvas id="andMoodFly"></canvas>
-<div id="cursorText">Какое у тебя настроение?</div>
+  <!-- CANVAS BACKGROUND -->
+  <canvas id="andMoodFly"></canvas>
+  <div id="cursorText">Какое у тебя настроение?</div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero__inner grid">
+  <!-- === HERO SCREEN === -->
+  <section class="hero">
+    <div class="hero__inner grid">
 
-    <button class="menu" id="menuBtn"></button>
+      <button class="menu" id="menuBtn"></button>
 
-    <h1 class="head">
-      <span>WEB DESIGN UX/UI TILDA BRANDING LOGO WEB DESIGN UX/UI TILDA BRANDING LOGO</span>
-    </h1>
+      <h1 class="head">
+        <span>WEB DESIGN UX/UI TILDA BRANDING LOGO WEB DESIGN UX/UI TILDA BRANDING LOGO</span>
+      </h1>
 
-    <nav class="subnav">
+      <nav class="subnav">
+        <a href="#portfolio">ПОРТФОЛИО</a>
+        <a href="#about">ОБО МНЕ</a>
+        <a href="#resume">РЕЗЮМЕ</a>
+      </nav>
+
+    </div>
+
+    <nav class="side">
+      <a href="tel:+79850563397">+7 985 056-33-97</a>
+      <a href="https://t.me/andraw_m">@ANDRAW_M</a>
+      <a href="#music">МУЗЫКА</a>
+    </nav>
+
+    <div class="case">
+      <div class="slider" id="caseSlider">
+        <img src="img/im.jpg" class="active" />
+        <img src="img/project2.jpg" />
+        <img src="img/project3.jpg" />
+        <a class="case__title" id="caseTitle">АЛЬФА ПРОЕКТ БАНК</a>
+      </div>
+      <div class="dots" id="caseDots"></div>
+    </div>
+
+    <a class="brand" href="/">
+      <img src="img/logo.png" />
+    </a>
+  </section>
+
+  <!-- POPUP MENU -->
+  <div class="popup" id="popupMenu">
+    <div class="close" id="popupClose"></div>
+    <div>
       <a href="#portfolio">ПОРТФОЛИО</a>
       <a href="#about">ОБО МНЕ</a>
       <a href="#resume">РЕЗЮМЕ</a>
-    </nav>
-
-  </div>
-</section>
-
-<nav class="side">
-  <a href="tel:+79850563397">+7 985 056-33-97</a>
-  <a href="https://t.me/andraw_m">@ANDRAW_M</a>
-  <a href="#music">МУЗЫКА</a>
-</nav>
-
-<div class="case">
-  <div class="slider" id="caseSlider">
-    <img src="https://static.tildacdn.com/tild3437-3462-4135-b139-373934393265/im.jpg" class="active">
-    <img src="https://static.tildacdn.com/tild6130-6231-4339-b362-373639353862/project2.jpg">
-    <img src="https://static.tildacdn.com/tild3333-6130-4562-b231-303933616561/project3.jpg">
-    <a class="case__title" id="caseTitle">АЛЬФА ПРОЕКТ БАНК</a>
-  </div>
-  <div class="dots" id="caseDots"></div>
-</div>
-
-<a class="brand" href="/">
-  <img src="https://static.tildacdn.com/tild3331-3134-4561-b963-343936356336/Group_47_1.png">
-</a>
-
-<!-- POPUP MENU -->
-<div class="popup" id="popupMenu">
-  <div class="close" id="popupClose"></div>
-  <div>
-    <a href="#portfolio">ПОРТФОЛИО</a>
-    <a href="#about">ОБО МНЕ</a>
-    <a href="#resume">РЕЗЮМЕ</a>
-    <a href="#music">МУЗЫКА</a>
-    <a href="https://t.me/andraw_m">TELEGRAM</a>
-  </div>
-</div>
-
-
-<script>
-/* ============================
-      HERO MENU POPUP
-============================ */
-menuBtn.onclick = ()=>popupMenu.classList.add('show');
-popupClose.onclick = ()=>popupMenu.classList.remove('show');
-popupMenu.querySelectorAll("a").forEach(a=>a.onclick=()=>popupMenu.classList.remove('show'));
-
-/* ============================
-      SLIDER
-============================ */
-const slider=document.getElementById("caseSlider");
-if(slider){
-  const imgs=[...slider.querySelectorAll("img")];
-  const dots=document.getElementById("caseDots");
-  const title=document.getElementById("caseTitle");
-  const titles=["АЛЬФА ПРОЕКТ БАНК","PROJEKT TWO","BRUNO SURASKI"];
-  let cur=0;
-
-  imgs.forEach((_,i)=>{
-    const d=document.createElement("div");
-    d.className="dot"+(i===0?" active":"");
-    d.onclick=()=>set(i);
-    dots.appendChild(d);
-  });
-
-  function set(i){
-    imgs[cur].classList.remove("active");
-    dots.children[cur].classList.remove("active");
-    cur=i;
-    imgs[cur].classList.add("active");
-    dots.children[cur].classList.add("active");
-    title.textContent=titles[cur];
-  }
-
-  setInterval(()=>set((cur+1)%imgs.length),6000);
-}
-
-/* ============================
-      RUNNING TEXT HOVER
-============================ */
-const head=document.querySelector(".head span");
-head.addEventListener("mousemove",e=>{
-  const r=head.getBoundingClientRect();
-  head.style.setProperty("--x",((e.clientX-r.left)/r.width*100)+"%");
-  head.style.setProperty("--y",((e.clientY-r.top )/r.height*100)+"%");
-});
-
-/* ============================
-      CANVAS BACKGROUND 
-============================ */
-(()=>{
-
-const cvs=document.getElementById("andMoodFly");
-const ctx=cvs.getContext("2d");
-let W=0,H=0;
-
-function resize(){
-  W=window.innerWidth;
-  H=window.innerHeight;
-  cvs.width=W;
-  cvs.height=H;
-}
-resize();
-window.addEventListener("resize",resize);
-
-const MOODS={
-  great:[92,255,184],
-  good:[121,168,255],
-  ok:[185,190,204],
-  bad:[255,107,117]
-};
-
-let icons=[];
-function noise(x,y){return(Math.sin(x*12.9898+y*78.233)*43758.5453)%1;}
-
-function spawn(m){
- icons.push({
-   mood:m,
-   x:Math.random()*W,
-   y:Math.random()*H,
-   vx:(Math.random()-.5)*.2,
-   vy:(Math.random()-.5)*.2,
-   rot:Math.random()*6.28,
-   vr:(Math.random()-.5)*.003,
-   scale:0
- });
-}
-
-function drawIcon(p,size){
-  const [r,g,b]=MOODS[p.mood];
-  ctx.strokeStyle=`rgba(${r},${g},${b},0.9)`;
-  ctx.lineWidth=2;
-
-  if(p.mood==="great"){ ctx.beginPath();ctx.arc(0,0,size*.34,0,6.28);ctx.stroke(); }
-  else if(p.mood==="good"){ ctx.beginPath();ctx.arc(0,0,size*.45,0,6.28);ctx.stroke(); }
-  else if(p.mood==="ok"){
-    const s=size*.72, rC=s*.22;
-    const x=-s/2,y=-s/2;
-    ctx.beginPath();
-    ctx.moveTo(x+rC,y);
-    ctx.lineTo(x+s-rC,y);
-    ctx.quadraticCurveTo(x+s,y,x+s,y+rC);
-    ctx.lineTo(x+s,y+s-rC);
-    ctx.quadraticCurveTo(x+s,y+s,x+s-rC,y+s);
-    ctx.lineTo(x+rC,y+s);
-    ctx.quadraticCurveTo(x,y+s,x,y+s-rC);
-    ctx.lineTo(x,y+rC);
-    ctx.quadraticCurveTo(x,y,x+rC,y);
-    ctx.stroke();
-  } else {
-    const L=size*.95,h=L*Math.sqrt(3)/2;
-    ctx.beginPath();
-    ctx.moveTo(0,h/2);
-    ctx.lineTo(-L/2,-h/2);
-    ctx.lineTo(L/2,-h/2);
-    ctx.closePath();
-    ctx.stroke();
-  }
-}
-
-function render(){
- ctx.clearRect(0,0,W,H);
-
- icons.forEach(i=>{
-   i.scale=Math.min(1,i.scale+0.02);
-   const a=noise(i.x*.00035,i.y*.00035)*6.28;
-   i.vx+=Math.cos(a)*.004;
-   i.vy+=Math.sin(a)*.004;
-   i.x+=i.vx;
-   i.y+=i.vy;
-   if(i.x<30)i.vx=Math.abs(i.vx);
-   if(i.x>W-30)i.vx=-Math.abs(i.vx);
-   if(i.y<30)i.vy=Math.abs(i.vy);
-   if(i.y>H-30)i.vy=-Math.abs(i.vy);
- });
-
- icons.forEach(i=>{
-   ctx.save();
-   ctx.translate(i.x,i.y);
-   ctx.scale(i.scale,i.scale);
-   ctx.rotate(i.rot+=i.vr);
-   drawIcon(i,62);
-   ctx.restore();
- });
-
- requestAnimationFrame(render);
-}
-render();
-
-/* CURSOR TEXT */
-const cT=document.getElementById("cursorText");
-let tt=null;
-
-document.addEventListener("mousemove",e=>{
-  if(e.target.closest("a,button,.menu,.subnav,.side,.case,.popup")){
-    cT.style.opacity=0;
-    return;
-  }
-  cT.style.left=e.clientX+"px";
-  cT.style.top=e.clientY+"px";
-  cT.style.opacity=1;
-  clearTimeout(tt);
-  tt=setTimeout(()=>cT.style.opacity=0,700);
-});
-
-/* POPUP MOOD */
-function openPopup(){
-  const o=document.createElement("div");
-  o.className="and-overlay";
-  o.innerHTML=`
-    <div class="and-pop">
-      <h3 style="color:white">Как настроение?</h3>
-      <div class="mood-row">
-        <button class="mood-btn" data-m="great">☼ Круто</button>
-        <button class="mood-btn" data-m="good">● Хорошо</button>
-        <button class="mood-btn" data-m="ok">■ Нормально</button>
-        <button class="mood-btn" data-m="bad">▲ Так себе</button>
-      </div>
+      <a href="#music">МУЗЫКА</a>
+      <a href="https://t.me/andraw_m">TELEGRAM</a>
     </div>
-  `;
-  document.body.appendChild(o);
-  o.querySelectorAll(".mood-btn").forEach(b=>{
-    b.onclick=()=>{
-      spawn(b.dataset.m);
-      o.remove();
-    };
-  });
-}
+  </div>
 
-cvs.addEventListener("click",openPopup);
-
-/* START */
-spawn("great");
-spawn("good");
-spawn("bad");
-
-})();
-</script>
-
+  <script src="js/main.js"></script>
+  <script src="js/canvas.js"></script>
 </body>
 </html>
+
