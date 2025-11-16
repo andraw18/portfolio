@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>ANDRAW PORTFOLIO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/style.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- CANVAS BACKGROUND -->
+<canvas id="andMoodFly"></canvas>
+<div id="cursorText">Какое у тебя настроение?</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner grid">
+    <button class="menu" id="menuBtn"></button>
+
+    <h1 class="head reveal">
+      <span>WEB DESIGN UX/UI TILDA BRANDING LOGO WEB DESIGN UX/UI TILDA BRANDING LOGO</span>
+    </h1>
+
+    <nav class="subnav reveal">
+      <a href="#portfolio">ПОРТФОЛИО</a>
+      <a href="#about">ОБО МНЕ</a>
+      <a href="#resume">РЕЗЮМЕ</a>
+    </nav>
+  </div>
+
+  <nav class="side reveal">
+    <a href="tel:+79850563397">+7 985 056-33-97</a>
+    <a href="https://t.me/andraw_m">@ANDRAW_M</a>
+    <a href="#music">МУЗЫКА</a>
+  </nav>
+
+  <div class="case reveal">
+    <div class="slider" id="caseSlider">
+      <img src="img/project1.jpg" class="active">
+      <img src="img/project2.jpg">
+      <img src="img/project3.jpg">
+      <a class="case__title" id="caseTitle">АЛЬФА ПРОЕКТ БАНК</a>
+    </div>
+    <div class="dots" id="caseDots"></div>
+  </div>
+
+  <a class="brand reveal" href="/">
+    <img src="img/logo.png">
+  </a>
+</section>
+
+<!-- POPUP MENU -->
+<div class="popup" id="popupMenu">
+  <div class="close" id="popupClose"></div>
+  <div>
+    <a href="#portfolio">ПОРТФОЛИО</a>
+    <a href="#about">ОБО МНЕ</a>
+    <a href="#resume">РЕЗЮМЕ</a>
+    <a href="#music">МУЗЫКА</a>
+    <a href="https://t.me/andraw_m">TELEGRAM</a>
+  </div>
+</div>
+
+<!-- POPUP (Mood) создаётся JS -->
+
+<!-- JS -->
+<script src="js/canvas.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/slider.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/ui.js"></script>
+
+</body>
+</html>
